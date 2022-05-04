@@ -16,7 +16,10 @@ def publish_message(producer_instance, topic_name, key, value):
 def connect_kafka_producer():
     _producer = None
     try:
+        print("Try create producer")
+        # _producer = KafkaProducer(bootstrap_servers=['broker:9092'], api_version=(0, 10))
         _producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(0, 10))
+        print("Create producer")
     except Exception as ex:
         print('Exception while connecting Kafka')
         print(str(ex))
@@ -25,7 +28,10 @@ def connect_kafka_producer():
 
 
 if __name__ == '__main__':
-    producer = connect_kafka_producer()
-    for i in range(20):
-        publish_message(producer, 'test', '123', i.__str__())
-        time.sleep(3)
+    time.sleep(10)
+    with open('file.txt', 'w') as file:
+        producer = connect_kafka_producer()
+
+        for i in range(20):
+            publish_message(producer, 'test', '123', i.__str__())
+            time.sleep(3)
